@@ -14,9 +14,13 @@ O objetivo é consolidar os conhecimentos adquiridos em aula através de um cen�
 
 Siga o passo a passo do quadro de atividades (Trello) do projeto prático dessa disciplina, disponível nos vídeos de projeto prático da disciplina.
 
+## 💾 Sobre o Dataset (PaySim)
+
+Os dados usados no projeto vêm do [PaySim](https://www.kaggle.com/datasets/ealaxi/paysim1), um simulador que reproduz transações financeiras móveis a partir de dados reais agregados. Cada linha do CSV representa uma transação, com campos como `step` (tempo), `type` (`PAYMENT`, `TRANSFER`, `CASH_OUT`, `CASH_IN`, `DEBIT`), `amount`, os clientes de origem/destino e seus saldos, além dos rótulos `isFraud` e `isFlaggedFraud`. As fraudes se concentram em transações do tipo `TRANSFER` e `CASH_OUT`.
+
 ## 📦 Requisitos
 
 * **Git e GitHub**: para controle de versões e portifólio de repositórios.
-* **Java JDK**: 25 (LTS).
+* **Java JDK**: 21 (LTS).
 * **IDE**: IntelliJ IDEA ou Eclipse.
 * **Docker e Docker Compose**: Para a tarefa de Banco de Dados.
