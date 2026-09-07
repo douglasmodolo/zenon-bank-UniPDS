@@ -2,12 +2,36 @@ package br.com.zenon.fraud;
 
 import br.com.zenon.fraud.transaction.Transaction;
 import br.com.zenon.fraud.transaction.TransactionCustomer;
+import br.com.zenon.fraud.transaction.TransactionIngestor;
 import br.com.zenon.fraud.transaction.TransactionType;
 
+import java.io.IOException;
 import java.math.BigDecimal;
+import java.util.List;
 
 public class Main {
     public static void main(String[] args) {
+        //tarefa02();
+
+        try {
+            tarefa03();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    private static void tarefa03() throws IOException {
+        String filePath = "data/PS_20174392719_1491204439457_log.csv";
+        TransactionIngestor ingestor = new TransactionIngestor();
+
+        List<Transaction> transactionList = ingestor.execute(filePath);
+
+        for (int i = 0; i < 10; i++) {
+            System.out.println(transactionList.get(i));
+        }
+    }
+
+    private static void tarefa02() {
         var transaction1 = new Transaction(
                 1,
                 TransactionType.PAYMENT,
