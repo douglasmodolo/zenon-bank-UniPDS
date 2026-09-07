@@ -78,3 +78,15 @@ decididos. Viram uma entrada `DT-NN` abaixo quando batermos o martelo.
 - **Alternativas descartadas:** `double` (erro de ponto flutuante, quebra o output);
   `new BigDecimal(double)` (reintroduz a sujeira binária do double).
 - **Status:** aceita.
+
+### DT-04 — TransactionIngestor como service de instância (não static)
+- **Tarefa:** 03.
+- **Decisão:** o `TransactionIngestor` é uma classe `public` com método de **instância**
+  (`new TransactionIngestor().ingest(arquivo)`), não métodos `static`.
+- **Por quê:** é a forma idiomática de um "service" em Java — services são objetos, não
+  funções soltas; facilita testes e evolução (ex.: futura configuração de separador ou
+  limite de linhas encaixa no objeto). Alinha com o modelo que aparece adiante no curso
+  (Spring/JDBC, onde tudo é instância).
+- **Alternativas descartadas:** método `static` — funcionaria por a classe ser stateless,
+  mas "tudo static" tende a virar código procedural vestido de OO e é menos testável.
+- **Status:** aceita.
