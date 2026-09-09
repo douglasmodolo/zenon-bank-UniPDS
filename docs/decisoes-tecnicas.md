@@ -90,3 +90,17 @@ decididos. Viram uma entrada `DT-NN` abaixo quando batermos o martelo.
 - **Alternativas descartadas:** método `static` — funcionaria por a classe ser stateless,
   mas "tudo static" tende a virar código procedural vestido de OO e é menos testável.
 - **Status:** aceita.
+
+### DT-05 — Parsing de linha com Optional<Transaction>
+- **Tarefa:** 04.
+- **Decisão:** o parsing de uma linha fica num método `parseLine(String)` que devolve
+  `Optional<Transaction>` — `Optional.of(...)` quando a linha é válida e, no `catch`, loga o
+  erro em `System.err` (`Erro: <linha> | <exceção>`) e devolve `Optional.empty()`. O loop
+  consome com `parseLine(line).ifPresent(transactionList::add)`.
+- **Por quê:** separa "parsear uma linha (pode falhar)" de "coletar os resultados"; a
+  assinatura `Optional<Transaction>` documenta que o parse pode não produzir nada (melhor que
+  devolver `null` escondido) e prepara o terreno para o estilo funcional da Tarefa 05
+  (Streams).
+- **Alternativas descartadas:** try/catch inline no loop — também correto e mais direto, mas
+  mistura as duas responsabilidades e não compõe tão bem.
+- **Status:** aceita.
