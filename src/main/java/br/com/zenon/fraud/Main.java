@@ -13,11 +13,27 @@ public class Main {
     public static void main(String[] args) {
         //tarefa02();
 
+//        try {
+//            tarefa03();
+//        } catch (IOException e) {
+//            throw new RuntimeException(e);
+//        }
+
         try {
-            tarefa03();
+            tarefa04();
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
+    }
+
+    private static void tarefa04() throws IOException {
+        String filePath = "data/paysim_with_bad_data.csv";
+        TransactionIngestor ingestor = new TransactionIngestor();
+
+        List<Transaction> transactionList = ingestor.execute(filePath);
+
+        System.out.println(transactionList.size());
+        transactionList.forEach(System.out::println);
     }
 
     private static void tarefa03() throws IOException {

@@ -12,8 +12,8 @@ uma branch própria (`tarefa/NN-nome`) e, ao final, mergeada na `main`.
 |---|--------|:-----:|:------:|--------------|
 | 01 | Configuração do ambiente e dados (PaySim) | 🟢 | ✅ | IDE, Maven, download do dataset |
 | 02 | Modelagem de transações com Records | 🟢 | ✅ | Imutabilidade, tipos corretos, encapsulamento |
-| 03 | Ingestão de dados e I/O básico | 🟢 | 🚧 | `java.io`, parsing manual, `List<Transaction>` |
-| 04 | Tratamento de erros e Optional | 🟢 | ⬜ | Exceções, validação no record, dados sujos |
+| 03 | Ingestão de dados e I/O básico | 🟢 | ✅ | `java.io`, parsing manual, `List<Transaction>` |
+| 04 | Tratamento de erros e Optional | 🟢 | ✅ | Exceções, validação no record, dados sujos |
 | 05 | Análise de fraudes com Stream API | 🟢 | ⬜ | filter / map / sorted / reduce / groupingBy |
 | 06 | Benchmark de busca: List vs Map | 🟢 | ⬜ | Complexidade O(n) vs O(1) |
 | 07 | Relatório eficiente com Java NIO | 🟡 | ⬜ | I/O sem estourar memória, lazy loading |
@@ -34,12 +34,12 @@ Configurar a IDE (IntelliJ/Eclipse) e o build (Maven), e baixar o dataset do Pay
 Modelar a transação como um `record` imutável, escolhendo os tipos de dados corretos.
 Espinha dorsal do projeto: todas as tarefas seguintes consomem esse tipo.
 
-### 03 — Ingestão de dados e I/O básico 🟢 🚧
+### 03 — Ingestão de dados e I/O básico 🟢 ✅
 Criar a classe `TransactionIngestor`, que recebe o nome de um arquivo e devolve uma
 `List<Transaction>`. Ler as primeiras 1.000 linhas do CSV com o `java.io` clássico e fazer
 o parsing manual de cada linha.
 
-### 04 — Tratamento de erros e Optional 🟢
+### 04 — Tratamento de erros e Optional 🟢 ✅
 Validar o record `Transaction` no momento da construção (nenhum valor nulo, `step >= 1`,
 valores não negativos, `type` válido) e processar um CSV com linhas corrompidas — logando
 os erros em `System.err` e seguindo a leitura sem abortar.

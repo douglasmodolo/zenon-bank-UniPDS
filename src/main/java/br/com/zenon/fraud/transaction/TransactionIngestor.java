@@ -6,6 +6,7 @@ import java.io.IOException;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 public class TransactionIngestor {
 
@@ -26,11 +27,7 @@ public class TransactionIngestor {
 
             int count = 0;
             while(((line = reader.readLine()) != null) && (count < LIMIT_LINES)) {
-                String[] values = line.split(",");
-
-                var transaction = createTransaction(values);
-                transactionList.add(transaction);
-
+                parseLine(line).ifPresent(transactionList::add);
                 count++;
             }
         }
@@ -48,5 +45,15 @@ public class TransactionIngestor {
                 Integer.parseInt(values[9]) > 0,
                 Integer.parseInt(values[10]) > 0
         );
+    }
+
+    private Optional<Transaction> parseLine(String line) {
+        try {
+            String[] values = line.split(",");
+            return Optional.of(createTransaction(values));
+        } catch (Exception e) {
+            System.err.println("Erro: " + line + " | " + e);
+            return Optional.empty();
+        }
     }
 }
