@@ -10,9 +10,7 @@ import java.util.Optional;
 
 public class TransactionIngestor {
 
-    private static final int LIMIT_LINES = 1000;
-
-    public List<Transaction> execute(String filePath) throws IOException {
+    public List<Transaction> execute(String filePath, int maxLines) throws IOException {
         List<Transaction> transactionList = new ArrayList<>();
 
         if (filePath.isBlank())
@@ -26,7 +24,7 @@ public class TransactionIngestor {
             line = reader.readLine();
 
             int count = 0;
-            while(((line = reader.readLine()) != null) && (count < LIMIT_LINES)) {
+            while(((line = reader.readLine()) != null) && (count < maxLines)) {
                 parseLine(line).ifPresent(transactionList::add);
                 count++;
             }
