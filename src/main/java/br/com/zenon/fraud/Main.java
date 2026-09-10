@@ -7,6 +7,7 @@ import br.com.zenon.fraud.transaction.TransactionType;
 
 import java.io.IOException;
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.util.List;
 
 public class Main {
@@ -19,32 +20,17 @@ public class Main {
 //            throw new RuntimeException(e);
 //        }
 
-        try {
-            tarefa04();
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
-    }
+//        try {
+//            tarefa04();
+//        } catch (IOException e) {
+//            throw new RuntimeException(e);
+//        }
 
-    private static void tarefa04() throws IOException {
-        String filePath = "data/paysim_with_bad_data.csv";
-        TransactionIngestor ingestor = new TransactionIngestor();
-
-        List<Transaction> transactionList = ingestor.execute(filePath);
-
-        System.out.println(transactionList.size());
-        transactionList.forEach(System.out::println);
-    }
-
-    private static void tarefa03() throws IOException {
-        String filePath = "data/PS_20174392719_1491204439457_log.csv";
-        TransactionIngestor ingestor = new TransactionIngestor();
-
-        List<Transaction> transactionList = ingestor.execute(filePath);
-
-        for (int i = 0; i < 10; i++) {
-            System.out.println(transactionList.get(i));
-        }
+//        try {
+//            tarefa05();
+//        } catch (IOException e) {
+//            throw new RuntimeException(e);
+//        }
     }
 
     private static void tarefa02() {
@@ -69,5 +55,55 @@ public class Main {
                 false);
 
         System.out.println(transaction2);
+    }
+
+    private static void tarefa03() throws IOException {
+        String filePath = "data/PS_20174392719_1491204439457_log.csv";
+        TransactionIngestor ingestor = new TransactionIngestor();
+
+        List<Transaction> transactionList = ingestor.execute(filePath, 1000);
+
+        for (int i = 0; i < 10; i++) {
+            System.out.println(transactionList.get(i));
+        }
+    }
+
+    private static void tarefa04() throws IOException {
+        String filePath = "data/paysim_with_bad_data.csv";
+        TransactionIngestor ingestor = new TransactionIngestor();
+
+        List<Transaction> transactionList = ingestor.execute(filePath, 16);
+
+        System.out.println(transactionList.size());
+        transactionList.forEach(System.out::println);
+    }
+
+    private static void tarefa05() throws IOException {
+        String filePath = "data/PS_20174392719_1491204439457_log.csv";
+        TransactionIngestor ingestor = new TransactionIngestor();
+
+        List<Transaction> transactionList = ingestor.execute(filePath, 50000);
+
+        FraudAnalyzer analyzer = new FraudAnalyzer();
+
+        int fraudCount = analyzer.countFrauds(transactionList);
+        System.out.println("1. Total de Fraudes: " + fraudCount);
+
+        System.out.println("2. Top 3 Fraudes de Maior Valor:");
+        List<BigDecimal> top3 = analyzer.top3(transactionList);
+        top3.forEach(amount -> System.out.println(amount.setScale(2, RoundingMode.HALF_UP)));
+
+        System.out.println("3. Clientes Suspeitos:");
+        List<String> topSuspects = analyzer.suspects(transactionList);
+        topSuspects.forEach(System.out::println);
+
+        BigDecimal totalLoss = analyzer.totalLoss(transactionList);
+        System.out.println("4. Prejuízo Total: " + totalLoss);
+
+        System.out.println("5. Fraudes por Tipo:");
+        long cashOutCount = analyzer.countFraudsByType(transactionList, TransactionType.CASH_OUT);
+        System.out.println(" - CASH_OUT: " + cashOutCount);
+        long transferCount = analyzer.countFraudsByType(transactionList, TransactionType.TRANSFER);
+        System.out.println(" - TRANSFER: " + transferCount);
     }
 }

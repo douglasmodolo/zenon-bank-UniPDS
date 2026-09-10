@@ -104,3 +104,29 @@ decididos. Viram uma entrada `DT-NN` abaixo quando batermos o martelo.
 - **Alternativas descartadas:** try/catch inline no loop — também correto e mais direto, mas
   mistura as duas responsabilidades e não compõe tão bem.
 - **Status:** aceita.
+
+### DT-06 — Limite de linhas obrigatório no TransactionIngestor
+- **Tarefa:** 05.
+- **Decisão:** `execute(String filePath, int limit)` — o limite de linhas a ler é um
+  parâmetro **obrigatório**; não há sobrecarga "ler tudo". Cada tarefa passa quanto quer
+  (03 → 1.000; 05 → 50.000).
+- **Por quê:** exigir o limite é uma escolha defensiva e intencional — o CSV do PaySim tem
+  ~6,3 milhões de linhas (471 MB), e um "ler tudo" descuidado carregaria tudo numa `List` e
+  estouraria a memória (`OutOfMemoryError`). Obrigar o limite força quem chama a decidir
+  conscientemente quanto carrega, que é o cerne das lições de I/O eficiente das Tarefas 07
+  (NIO) e 10 (concorrência/streaming).
+- **Alternativas descartadas:** sobrecarga `execute(filePath)` lendo o arquivo inteiro —
+  elegante para arquivos pequenos, mas vira um footgun de memória no arquivo grande.
+- **Status:** aceita.
+
+### DT-07 — FraudAnalyzer com um método por análise (calcula, não imprime)
+- **Tarefa:** 05.
+- **Decisão:** o `FraudAnalyzer` tem **um método por análise**, cada um **retornando** o
+  resultado (ex.: contagem, lista das top 3, prejuízo total, mapa por tipo). A `Main`
+  orquestra as chamadas e cuida da **impressão** (a formatação com `1.`, `2.`, ...).
+- **Por quê:** separa cálculo (analyzer) de apresentação (Main) — mesma linha do
+  `TransactionIngestor`, que retorna e deixa a `Main` imprimir; alinha com o enunciado
+  ("invoque cada um dos métodos"); e deixa cada análise testável isoladamente.
+- **Alternativas descartadas:** um único `execute` que roda as 5 análises e imprime tudo —
+  mais simples, mas mistura cálculo com apresentação e não bate com o "cada um dos métodos".
+- **Status:** aceita.

@@ -14,7 +14,7 @@ uma branch própria (`tarefa/NN-nome`) e, ao final, mergeada na `main`.
 | 02 | Modelagem de transações com Records | 🟢 | ✅ | Imutabilidade, tipos corretos, encapsulamento |
 | 03 | Ingestão de dados e I/O básico | 🟢 | ✅ | `java.io`, parsing manual, `List<Transaction>` |
 | 04 | Tratamento de erros e Optional | 🟢 | ✅ | Exceções, validação no record, dados sujos |
-| 05 | Análise de fraudes com Stream API | 🟢 | ⬜ | filter / map / sorted / reduce / groupingBy |
+| 05 | Análise de fraudes com Stream API | 🟢 | ✅ | filter / map / sorted / reduce / groupingBy |
 | 06 | Benchmark de busca: List vs Map | 🟢 | ⬜ | Complexidade O(n) vs O(1) |
 | 07 | Relatório eficiente com Java NIO | 🟡 | ⬜ | I/O sem estourar memória, lazy loading |
 | 08 | Internacionalização do relatório | 🟡 | ⬜ | i18n, `Locale`, `ResourceBundle`, moeda/data |
@@ -44,7 +44,7 @@ Validar o record `Transaction` no momento da construção (nenhum valor nulo, `s
 valores não negativos, `type` válido) e processar um CSV com linhas corrompidas — logando
 os erros em `System.err` e seguindo a leitura sem abortar.
 
-### 05 — Análise de fraudes com Stream API 🟢
+### 05 — Análise de fraudes com Stream API 🟢 ✅
 Criar a classe `FraudAnalyzer` que, sobre 50.000 transações, usa a Stream API para:
 contar fraudes, achar as 3 de maior valor, listar clientes suspeitos distintos, somar o
 prejuízo total e contar fraudes por tipo.
