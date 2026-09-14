@@ -1,14 +1,13 @@
 package br.com.zenon.fraud;
 
-import br.com.zenon.fraud.transaction.Transaction;
-import br.com.zenon.fraud.transaction.TransactionCustomer;
-import br.com.zenon.fraud.transaction.TransactionIngestor;
-import br.com.zenon.fraud.transaction.TransactionType;
+import br.com.zenon.fraud.transaction.*;
 
 import java.io.IOException;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 public class Main {
     public static void main(String[] args) {
@@ -31,6 +30,12 @@ public class Main {
 //        } catch (IOException e) {
 //            throw new RuntimeException(e);
 //        }
+
+        try {
+            tarefa06();
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
     }
 
     private static void tarefa02() {
@@ -105,5 +110,44 @@ public class Main {
         System.out.println(" - CASH_OUT: " + cashOutCount);
         long transferCount = analyzer.countFraudsByType(transactionList, TransactionType.TRANSFER);
         System.out.println(" - TRANSFER: " + transferCount);
+    }
+
+    private static void tarefa06() throws IOException {
+        String filePath = "data/PS_20174392719_1491204439457_log.csv";
+        TransactionIngestor ingestor = new TransactionIngestor();
+
+        List<Transaction> transactionList = ingestor.execute(filePath, 100000);
+
+        TransactionRepository listRepository = new TransactionListRepository(transactionList);
+
+        Optional<Transaction> transaction = Optional.empty();
+
+        // 3.
+        List<String> names = new ArrayList<>();
+        names.add("C12345");
+        names.add("C1231006815");
+
+        for (var name : names) {
+            transaction = listRepository.findByOriginName(name);
+
+            if (transaction.isEmpty()) {
+                System.out.println("Transação não encontrada para o cliente " + name);
+            } else {
+                System.out.println(transaction.get());
+            }
+        }
+
+        // 4.
+        long begin = System.nanoTime();
+        transaction = listRepository.findByOriginName("C1868032458");
+        long end = System.nanoTime();
+        System.out.println("[List] Busca do pior caso: " + (end - begin) + "ns");
+
+        // 6.
+        TransactionRepository mapRepository = new TransactionMapRepository(transactionList);
+        begin = System.nanoTime();
+        transaction = mapRepository.findByOriginName("C1868032458");
+        end = System.nanoTime();
+        System.out.println("[Map] Busca do pior caso: " + (end - begin) + "ns");
     }
 }

@@ -130,3 +130,20 @@ decididos. Viram uma entrada `DT-NN` abaixo quando batermos o martelo.
 - **Alternativas descartadas:** um único `execute` que roda as 5 análises e imprime tudo —
   mais simples, mas mistura cálculo com apresentação e não bate com o "cada um dos métodos".
 - **Status:** aceita.
+
+### DT-08 — Busca abstraída por interface TransactionRepository (List e Map)
+- **Tarefa:** 06.
+- **Decisão:** a busca por transação é definida na interface `TransactionRepository`
+  (`Optional<Transaction> findByOriginName(String name)`), com duas implementações: uma
+  baseada em `List` (busca linear, O(n)) e outra em `Map<String, Transaction>` indexado pelo
+  nome de origem (busca O(1)). O repositório **é dono dos dados** (recebe a `List` no
+  construtor); a implementação com `Map` constrói o mapa a partir da lista no construtor. A
+  `Main` declara a variável pelo tipo da interface e troca de implementação mudando uma
+  única linha.
+- **Por quê:** exercita "programar para uma interface, não para uma implementação" — o
+  código chamador não muda ao trocar a estrutura de dados; e permite comparar na prática
+  O(n) (List) vs O(1) (Map). Benchmark: busca do pior caso (`C1868032458`, último dos 100k)
+  ~6,7 ms na List vs ~0,012 ms no Map (~567×).
+- **Alternativas descartadas:** passar a `List` como parâmetro do método de busca — impediria
+  a implementação com `Map` (que precisa da sua própria estrutura), quebrando a abstração.
+- **Status:** aceita.

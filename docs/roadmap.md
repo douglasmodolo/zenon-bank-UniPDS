@@ -15,7 +15,7 @@ uma branch própria (`tarefa/NN-nome`) e, ao final, mergeada na `main`.
 | 03 | Ingestão de dados e I/O básico | 🟢 | ✅ | `java.io`, parsing manual, `List<Transaction>` |
 | 04 | Tratamento de erros e Optional | 🟢 | ✅ | Exceções, validação no record, dados sujos |
 | 05 | Análise de fraudes com Stream API | 🟢 | ✅ | filter / map / sorted / reduce / groupingBy |
-| 06 | Benchmark de busca: List vs Map | 🟢 | ⬜ | Complexidade O(n) vs O(1) |
+| 06 | Benchmark de busca: List vs Map | 🟢 | ✅ | Complexidade O(n) vs O(1) |
 | 07 | Relatório eficiente com Java NIO | 🟡 | ⬜ | I/O sem estourar memória, lazy loading |
 | 08 | Internacionalização do relatório | 🟡 | ⬜ | i18n, `Locale`, `ResourceBundle`, moeda/data |
 | 09 | Persistência em banco com JDBC | 🟡 | ⬜ | MySQL, batch insert, Docker |
@@ -49,7 +49,7 @@ Criar a classe `FraudAnalyzer` que, sobre 50.000 transações, usa a Stream API 
 contar fraudes, achar as 3 de maior valor, listar clientes suspeitos distintos, somar o
 prejuízo total e contar fraudes por tipo.
 
-### 06 — Benchmark de busca: List vs Map 🟢
+### 06 — Benchmark de busca: List vs Map 🟢 ✅
 Comparar, na prática, o desempenho de uma busca linear em `List` (O(n)) contra a busca em
 `Map` (O(1)) sobre um grande volume de dados. Ver a complexidade algorítmica acontecer.
 
