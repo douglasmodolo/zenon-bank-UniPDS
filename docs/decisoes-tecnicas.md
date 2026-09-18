@@ -147,3 +147,20 @@ decididos. Viram uma entrada `DT-NN` abaixo quando batermos o martelo.
 - **Alternativas descartadas:** passar a `List` como parâmetro do método de busca — impediria
   a implementação com `Map` (que precisa da sua própria estrutura), quebrando a abstração.
 - **Status:** aceita.
+
+### DT-09 — Relatório do arquivo completo com Files.lines (lazy), em 3 passadas
+- **Tarefa:** 07.
+- **Decisão:** o `TransactionReport` processa o arquivo completo (~493MB) com
+  `java.nio.file.Files.lines(Path)` (stream preguiçoso, linha a linha) dentro de
+  try-with-resources, calculando 3 agregados (total de linhas, de fraudes, valor total) com
+  operações terminais puras (`count`, `filter+count`, `map+reduce`) — sem montar
+  `List<Transaction>`. Escolhida a abordagem de **3 passadas** (uma por métrica).
+- **Por quê:** ler para uma `List` estouraria a memória (6,3M objetos); o stream lazy mantém
+  só uma linha por vez na RAM (roda em `-Xmx128m`). As 3 passadas são mais simples e legíveis;
+  o custo é reler o arquivo 3× (aceitável para o exercício). Operações terminais puras
+  (count/reduce) evitam o anti-padrão de `forEach` com estado mutável externo e dispensam
+  `Atomic*` (que só fariam sentido em stream paralelo).
+- **Alternativas descartadas:** carregar tudo em `List` (OutOfMemoryError); uma única passada
+  acumulando os 3 valores (mais eficiente, lê o arquivo 1×, mas exige acumuladores mutáveis e
+  mais complexidade — não compensou aqui).
+- **Status:** aceita.

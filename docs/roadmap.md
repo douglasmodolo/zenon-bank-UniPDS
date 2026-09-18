@@ -16,7 +16,7 @@ uma branch própria (`tarefa/NN-nome`) e, ao final, mergeada na `main`.
 | 04 | Tratamento de erros e Optional | 🟢 | ✅ | Exceções, validação no record, dados sujos |
 | 05 | Análise de fraudes com Stream API | 🟢 | ✅ | filter / map / sorted / reduce / groupingBy |
 | 06 | Benchmark de busca: List vs Map | 🟢 | ✅ | Complexidade O(n) vs O(1) |
-| 07 | Relatório eficiente com Java NIO | 🟡 | ⬜ | I/O sem estourar memória, lazy loading |
+| 07 | Relatório eficiente com Java NIO | 🟡 | ✅ | I/O sem estourar memória, lazy loading |
 | 08 | Internacionalização do relatório | 🟡 | ⬜ | i18n, `Locale`, `ResourceBundle`, moeda/data |
 | 09 | Persistência em banco com JDBC | 🟡 | ⬜ | MySQL, batch insert, Docker |
 | 10 | Ingestão de dados completa e eficiente | ⚫ | ⬜ | Streams + concorrência / Virtual Threads |
@@ -53,7 +53,7 @@ prejuízo total e contar fraudes por tipo.
 Comparar, na prática, o desempenho de uma busca linear em `List` (O(n)) contra a busca em
 `Map` (O(1)) sobre um grande volume de dados. Ver a complexidade algorítmica acontecer.
 
-### 07 — Relatório eficiente com Java NIO 🟡
+### 07 — Relatório eficiente com Java NIO 🟡 ✅
 Gerar um relatório processando o arquivo grande com Java NIO, evitando carregar tudo na
 RAM (`OutOfMemoryError`). Sentir a diferença entre carregar tudo vs. processar em stream.
 
